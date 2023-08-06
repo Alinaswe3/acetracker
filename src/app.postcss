@@ -12,10 +12,16 @@
 
 	html,
 	body {
-		@apply w-full h-full overflow-x-hidden;
+		@apply w-full h-full;
 	}
 
 	body {
 		font-family: 'Rubik', sans-serif;
+	}
+}
+
+@layer components {
+	.focus-ring {
+		@apply focus:outline-none focus:ring-2 focus:ring-blue-400;
 	}
 }

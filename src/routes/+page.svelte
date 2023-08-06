@@ -7,3 +7,6 @@
 	<SearchBar />
 	<Map />
 </main>
+
+<style>
+</style>
