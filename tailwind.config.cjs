@@ -5,11 +5,15 @@ const config = {
 	theme: {
 		extend: {
 			colors: {
-				'light-gray': 'hsl(0, 0%, 17%)',
-				'dark-gray': 'hsl(0, 0%, 59%)'
+				'dark-gray': 'hsl(0, 0%, 17%)',
+				'light-gray': 'hsl(0, 0%, 59%)'
 			},
 			fontSize: {
 				body: '1.8rem'
+			},
+			screens: {
+				md: '36em',
+				lg: '69em'
 			}
 		}
 	},
