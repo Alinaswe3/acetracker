@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Circle } from 'svelte-loading-spinners';
-	import { isLoading, isSuccess, isError } from '../store/store';
+	import { isLoading, isSuccess, isError, addressData } from '../store/store';
+	import { fetchIpInfo } from '$lib/utils/dataFetch';
 
 	const DOMAIN_REGEX = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/g;
 	const IP_ADDRESS_REGEX =
@@ -15,18 +16,15 @@
 
 		try {
 			if (address.match(IP_ADDRESS_REGEX) || address.match(DOMAIN_REGEX)) {
-				await fetch('/api/location', {
-					method: 'POST',
-					body: JSON.stringify({
-						address
-					})
-				});
+				const data = await fetchIpInfo(address);
+				addressData.update(() => data.data);
 				$isSuccess = true;
 			} else {
 				throw new Error('Invalid address: ' + address);
 			}
 		} catch (e) {
 			$isError = true;
+			$isSuccess = false;
 		}
 		$isLoading = false;
 	};
