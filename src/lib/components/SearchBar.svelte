@@ -2,18 +2,29 @@
 	import { Circle } from 'svelte-loading-spinners';
 	import { isLoading, isSuccess, isError } from '../store/store';
 
+	const DOMAIN_REGEX = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/g;
+	const IP_ADDRESS_REGEX =
+		/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/g;
+
 	let address: string = '';
 
 	const submitFormData = async () => {
 		$isLoading = true;
+		$isError = false;
+		$isSuccess = false;
+
 		try {
-			await fetch('/api/location', {
-				method: 'POST',
-				body: JSON.stringify({
-					address
-				})
-			});
-			$isSuccess = true;
+			if (address.match(IP_ADDRESS_REGEX) || address.match(DOMAIN_REGEX)) {
+				await fetch('/api/location', {
+					method: 'POST',
+					body: JSON.stringify({
+						address
+					})
+				});
+				$isSuccess = true;
+			} else {
+				throw new Error('Invalid address: ' + address);
+			}
 		} catch (e) {
 			$isError = true;
 		}
@@ -30,7 +41,7 @@
 				e.preventDefault();
 				submitFormData();
 			}}
-			class="w-full h-[5.8rem] flex items-center"
+			class="relative w-full h-[5.8rem] flex items-center"
 		>
 			<input
 				bind:value={address}
