@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Circle } from 'svelte-loading-spinners';
-	import { isLoading, isSuccess, isError, addressData } from '../store/store';
+	import { addressData } from '../store/store';
 	import { fetchIpInfo } from '$lib/utils/dataFetch';
 
 	const DOMAIN_REGEX = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/g;
@@ -9,25 +9,27 @@
 
 	let address: string = '';
 
+	let isLoading = false;
+	let isError = false;
+	let isSuccess = false;
+
 	const submitFormData = async () => {
-		isLoading.set(true);
-		isError.set(false);
-		isSuccess.set(false);
+		isLoading = true;
 
 		try {
 			if (address.match(IP_ADDRESS_REGEX) || address.match(DOMAIN_REGEX)) {
 				const data = await fetchIpInfo(address);
 				if (data.status === '200') {
 					addressData.set(data.data);
-					isSuccess.set(true);
+					isSuccess = true;
 				}
 			} else {
 				throw new Error('Invalid address: ' + address);
 			}
 		} catch (e) {
-			isError.set(true);
+			isError = true;
 		}
-		isLoading.set(false);
+		isLoading = false;
 	};
 </script>
 
@@ -51,7 +53,7 @@
 				type="submit"
 				class="focus-ring text-5xl px-8 h-full rounded-tr-[15px] rounded-br-[15px] bg-black text-white"
 			>
-				{#if $isLoading}
+				{#if isLoading}
 					<Circle size="20" color="#fff" unit="px" duration="1s" />
 				{:else}
 					>
