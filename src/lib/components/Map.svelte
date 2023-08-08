@@ -11,6 +11,7 @@
 	onMount(async () => {
 		L = await import('leaflet');
 		map = L.map('map', {
+			center: [-15.3875, 28.3228],
 			zoom: 15,
 			zoomControl: false
 		});

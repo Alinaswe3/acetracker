@@ -8,23 +8,27 @@ const IP_ADDRESS_REGEX =
 	/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/g;
 
 export async function POST({ request }) {
-	const { address } = await request.json();
+	try {
+		const { address } = await request.json();
 
-	if (!address) return json({ status: '400', data: 'Bad Request' });
+		if (!address) return json({ status: '400', data: 'Bad Request' });
 
-	if (address.match(IP_ADDRESS_REGEX)) {
-		const res = await fetch(`${USER_SEARCH_IP_API_URL}&ipAddress=${address}`);
-		const data = await res.json();
-		if (data.code) return json({ status: '400', data: 'Bad Request' });
-		return json({ status: '200', data });
-	}
+		if (address.match(IP_ADDRESS_REGEX)) {
+			const res = await fetch(`${USER_SEARCH_IP_API_URL}&ipAddress=${address}`);
+			const data = await res.json();
+			if (data.code) return json({ status: '400', data: 'Bad Request' });
+			return json({ status: '200', data });
+		}
 
-	if (address.match(DOMAIN_REGEX)) {
-		const res = await fetch(`${USER_SEARCH_IP_API_URL}&domain=${address}`);
-		const data = await res.json();
-		if (data.code) return json({ status: '400', data: 'Bad Request' });
-		return json({ status: '200', data });
-	} else {
-		return json({ status: '400', data: 'Bad Request' });
+		if (address.match(DOMAIN_REGEX)) {
+			const res = await fetch(`${USER_SEARCH_IP_API_URL}&domain=${address}`);
+			const data = await res.json();
+			if (data.code) return json({ status: '400', data: 'Bad Request' });
+			return json({ status: '200', data });
+		} else {
+			return json({ status: '400', data: 'Bad Request' });
+		}
+	} catch (err) {
+		return json({ status: '500', data: 'Internal Server Error' });
 	}
 }

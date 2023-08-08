@@ -15,7 +15,6 @@
 
 	const submitFormData = async () => {
 		isLoading = true;
-
 		try {
 			if (address.match(IP_ADDRESS_REGEX) || address.match(DOMAIN_REGEX)) {
 				const data = await fetchIpInfo(address);
@@ -28,8 +27,9 @@
 			}
 		} catch (e) {
 			isError = true;
+		} finally {
+			isLoading = false;
 		}
-		isLoading = false;
 	};
 </script>
 
