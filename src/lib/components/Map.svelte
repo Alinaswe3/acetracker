@@ -24,7 +24,7 @@
 	}
 </script>
 
-<div class="relative w-full min-h-[10rem] h-full z-10">
+<div class="relative w-full min-h-[40rem] h-full z-10">
 	<DetailsBar />
 	<div id="map" class="absolute top-0 left-0 w-full h-full -z-10" />
 </div>
