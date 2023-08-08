@@ -23,8 +23,8 @@
 	});
 
 	$: if (map && $addressData) {
-		const { lat, lng } = $addressData.location;
-		const coords = [lat, lng];
+		const { lat, lon } = $addressData;
+		const coords = [lat, lon];
 		map.setView(coords, 15);
 		L.marker(coords, { icon: customIcon }).addTo(map);
 	}

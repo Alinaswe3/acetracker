@@ -5,6 +5,18 @@
 	import { Circle } from 'svelte-loading-spinners';
 
 	const GET_USER_IP_API_URL = 'https://api.ipify.org?format=json';
+	const SECONDS_IN_HOUR = 3600;
+
+	const hourFormatter = (hour: string) => {
+		if (hour.startsWith('-')) {
+			hour = hour.replace('-', '');
+			if (hour.length === 3) return `-${hour}:00`;
+			else return `-0${hour}:00`;
+		} else {
+			if (hour.length === 2) return `+${hour}:00`;
+			else return `+0${hour}:00`;
+		}
+	};
 
 	let isLoading = true;
 	let isError = false;
@@ -38,12 +50,12 @@
 
 	$: {
 		if ($addressData) {
-			ip = $addressData.ip;
-			country = $addressData.location.country;
-			region = $addressData.location.region;
-			timezone = $addressData.location.timezone;
-			postalCode = $addressData.location.postalCode;
-			isp = $addressData.isp;
+			ip = $addressData?.query;
+			country = $addressData?.countryCode;
+			region = $addressData?.regionName;
+			timezone = hourFormatter($addressData?.offset / SECONDS_IN_HOUR + '');
+			postalCode = $addressData?.zip;
+			isp = $addressData?.isp;
 		}
 	}
 </script>
