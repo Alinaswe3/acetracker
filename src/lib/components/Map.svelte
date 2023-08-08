@@ -30,7 +30,7 @@
 	}
 </script>
 
-<div class="relative w-full min-h-[40rem] h-full z-20 px-[2.4rem]">
+<div class="relative w-full min-h-[40rem] h-full z-20 px-8">
 	<DetailsBar />
 	<div id="map" class="absolute top-0 left-0 w-full h-full -z-10" />
 </div>

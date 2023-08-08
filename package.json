@@ -36,6 +36,7 @@
 	"type": "module",
 	"dependencies": {
 		"leaflet": "^1.9.4",
+		"svelte-easy-toast": "^1.1.0",
 		"svelte-loading-spinners": "^0.3.4"
 	}
 }

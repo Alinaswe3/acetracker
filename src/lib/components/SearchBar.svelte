@@ -2,6 +2,7 @@
 	import { Circle } from 'svelte-loading-spinners';
 	import { addressData } from '../store/store';
 	import { fetchIpInfo } from '$lib/utils/dataFetch';
+	import { SvelteEasyToast, toast } from 'svelte-easy-toast';
 
 	const DOMAIN_REGEX = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/g;
 	const IP_ADDRESS_REGEX =
@@ -10,23 +11,33 @@
 	let address: string = '';
 
 	let isLoading = false;
-	let isError = false;
-	let isSuccess = false;
+
+	const showToast = () => {
+		toast({
+			type: 'error', // dark, danger, success, info, warning, default, error
+			position: 'top-left', // top-left, top-center, bottom-left, bottom-right, bottom-center
+			text: 'Ensure you enter a correct IP address or domain',
+			title: 'Incorrect IP address or domain',
+			showClose: true,
+			closeOnClick: true,
+			delay: 6000
+		});
+	};
 
 	const submitFormData = async () => {
 		isLoading = true;
+		address = address.trim().toLowerCase();
 		try {
 			if (address.match(IP_ADDRESS_REGEX) || address.match(DOMAIN_REGEX)) {
 				const data = await fetchIpInfo(address);
 				if (data.status === '200') {
 					addressData.set(data.data);
-					isSuccess = true;
 				}
 			} else {
 				throw new Error('Invalid address: ' + address);
 			}
 		} catch (e) {
-			isError = true;
+			showToast();
 		} finally {
 			isLoading = false;
 		}
@@ -62,6 +73,8 @@
 		</form>
 	</div>
 </div>
+
+<SvelteEasyToast />
 
 <style>
 	.search {
