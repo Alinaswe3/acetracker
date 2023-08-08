@@ -60,47 +60,45 @@
 	}
 </script>
 
-<div class="w-full px-[2.4rem]">
-	<div
-		class="w-full leading-[3rem] lg:w-fit gap-[2rem] lg:gap-x-[4rem] lg:justify-start justify-center text-center md:text-start max-w-full details mx-auto bg-white shadow-lg -translate-y-1/2 p-[2.8rem] rounded-[15px]"
-	>
-		{#if isLoading}
-			<div class="w-full h-full flex items-center justify-center col-span-4">
-				<Circle size="30" color="#000" unit="px" duration="1s" />
+<div
+	class="w-full leading-[3rem] lg:w-fit gap-[2rem] lg:gap-x-[4rem] lg:justify-start justify-center text-center md:text-start max-w-full details mx-auto bg-white shadow-lg -translate-y-1/2 p-[2.8rem] rounded-[15px]"
+>
+	{#if isLoading}
+		<div class="w-full h-full flex items-center justify-center col-span-4">
+			<Circle size="30" color="#000" unit="px" duration="1s" />
+		</div>
+	{:else if isSuccess}
+		<div>
+			<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">ip address</h2>
+			<p class="font-medium text-[2.6rem]">{ip}</p>
+		</div>
+		<div>
+			<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">location</h2>
+			<p class="font-medium text-[2.6rem]">{region}, {country} {postalCode}</p>
+		</div>
+		<div>
+			<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">timezone</h2>
+			<p class="font-medium text-[2.6rem]">UTC {timezone}</p>
+		</div>
+		<div>
+			<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">isp</h2>
+			<p class="font-medium text-[2.6rem]">{isp}</p>
+		</div>
+	{:else}
+		<div class="w-full h-full flex items-center justify-center col-span-4">
+			<div class="flex flex-col gap-6 items-center text-center text-4xl w-full">
+				<p>Sorry! Something went wrong</p>
+				<p>Please reload page to fix the error</p>
+				<button
+					on:click={() => {
+						location.reload();
+					}}
+					class="border-2 border-black bg-black text-white text-3xl px-6 py-3 rounded-md uppercase shadow-sm transition-colors duration-300 hover:bg-white hover:text-black"
+					>reload</button
+				>
 			</div>
-		{:else if isSuccess}
-			<div>
-				<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">ip address</h2>
-				<p class="font-medium text-[2.6rem]">{ip}</p>
-			</div>
-			<div>
-				<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">location</h2>
-				<p class="font-medium text-[2.6rem]">{region}, {country} {postalCode}</p>
-			</div>
-			<div>
-				<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">timezone</h2>
-				<p class="font-medium text-[2.6rem]">UTC {timezone}</p>
-			</div>
-			<div>
-				<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">isp</h2>
-				<p class="font-medium text-[2.6rem]">{isp}</p>
-			</div>
-		{:else}
-			<div class="w-full h-full flex items-center justify-center col-span-4">
-				<div class="flex flex-col gap-6 items-center text-center text-4xl w-full">
-					<p>Sorry! Something went wrong</p>
-					<p>Please reload page to fix the error</p>
-					<button
-						on:click={() => {
-							location.reload();
-						}}
-						class="border-2 border-black bg-black text-white text-3xl px-6 py-3 rounded-md uppercase shadow-sm transition-colors duration-300 hover:bg-white hover:text-black"
-						>reload</button
-					>
-				</div>
-			</div>
-		{/if}
-	</div>
+		</div>
+	{/if}
 </div>
 
 <style>
