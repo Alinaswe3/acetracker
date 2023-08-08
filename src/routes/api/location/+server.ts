@@ -15,14 +15,14 @@ export async function POST({ request }) {
 	if (address.match(IP_ADDRESS_REGEX)) {
 		const res = await fetch(`${USER_SEARCH_IP_API_URL}&ipAddress=${address}`);
 		const data = await res.json();
-		if (data.code === 400) return json({ status: '400', data: 'Bad Request' });
+		if (data.code) return json({ status: '400', data: 'Bad Request' });
 		return json({ status: '200', data });
 	}
 
 	if (address.match(DOMAIN_REGEX)) {
 		const res = await fetch(`${USER_SEARCH_IP_API_URL}&domain=${address}`);
 		const data = await res.json();
-		if (data.code === 400) return json({ status: '400', data: 'Bad Request' });
+		if (data.code) return json({ status: '400', data: 'Bad Request' });
 		return json({ status: '200', data });
 	} else {
 		return json({ status: '400', data: 'Bad Request' });
