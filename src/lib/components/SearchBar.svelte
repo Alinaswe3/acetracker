@@ -10,23 +10,24 @@
 	let address: string = '';
 
 	const submitFormData = async () => {
-		$isLoading = true;
-		$isError = false;
-		$isSuccess = false;
+		isLoading.set(true);
+		isError.set(false);
+		isSuccess.set(false);
 
 		try {
 			if (address.match(IP_ADDRESS_REGEX) || address.match(DOMAIN_REGEX)) {
 				const data = await fetchIpInfo(address);
-				addressData.update(() => data.data);
-				$isSuccess = true;
+				if (data.status === '200') {
+					addressData.set(data.data);
+					isSuccess.set(true);
+				}
 			} else {
 				throw new Error('Invalid address: ' + address);
 			}
 		} catch (e) {
-			$isError = true;
-			$isSuccess = false;
+			isError.set(true);
 		}
-		$isLoading = false;
+		isLoading.set(false);
 	};
 </script>
 

@@ -16,7 +16,7 @@
 		const res = await fetch(GET_USER_IP_API_URL);
 		const { ip } = await res.json();
 		const userIpData = await fetchIpInfo(ip);
-		addressData.update(() => userIpData.data);
+		if (userIpData.status === '200') addressData.set(userIpData.data);
 	};
 
 	onMount(async () => {
