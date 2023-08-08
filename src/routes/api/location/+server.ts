@@ -1,7 +1,7 @@
 import { API_KEY } from '$env/static/private';
 import { json } from '@sveltejs/kit';
 
-const USER_SEARCH_IP_API_URL = `https://geo.ipify.org/api/v2/country?apiKey=${API_KEY}`;
+const USER_SEARCH_IP_API_URL = `https://geo.ipify.org/api/v2/country,city?apiKey=${API_KEY}`;
 
 const DOMAIN_REGEX = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/g;
 const IP_ADDRESS_REGEX =
@@ -9,6 +9,8 @@ const IP_ADDRESS_REGEX =
 
 export async function POST({ request }) {
 	const { address } = await request.json();
+
+	if (!address) return json({ status: '400', data: 'Bad Request' });
 
 	if (address.match(IP_ADDRESS_REGEX)) {
 		const res = await fetch(`${USER_SEARCH_IP_API_URL}&ipAddress=${address}`);

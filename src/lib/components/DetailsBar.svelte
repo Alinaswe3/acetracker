@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fetchIpInfo } from '$lib/utils/dataFetch';
 	import { onMount } from 'svelte';
-	import { isLoading, isSuccess, isError, addressData } from '../store/store';
+	import { addressData } from '../store/store';
 
 	const GET_USER_IP_API_URL = 'https://api.ipify.org?format=json';
 
@@ -9,7 +9,7 @@
 		country: string = '---',
 		region: string = '---',
 		timezone: string = '---',
-		asn: number = 0,
+		postalCode: string = '---',
 		isp: string = '---';
 
 	const fetchUserIpInfo = async () => {
@@ -25,12 +25,11 @@
 
 	$: {
 		if ($addressData) {
-			console.log($addressData);
 			ip = $addressData.ip;
 			country = $addressData.location.country;
 			region = $addressData.location.region;
 			timezone = $addressData.location.timezone;
-			asn = $addressData.as.asn;
+			postalCode = $addressData.location.postalCode;
 			isp = $addressData.isp;
 		}
 	}
@@ -46,7 +45,7 @@
 		</div>
 		<div>
 			<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">location</h2>
-			<p class="font-medium text-[2.6rem]">{region}, {country} {asn}</p>
+			<p class="font-medium text-[2.6rem]">{region}, {country} {postalCode}</p>
 		</div>
 		<div>
 			<h2 class="text-[1.2rem] font-bold text-light-gray uppercase tracking-wider">timezone</h2>

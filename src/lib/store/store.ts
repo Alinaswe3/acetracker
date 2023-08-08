@@ -10,6 +10,9 @@ export const addressData = writable<{
 		country: string;
 		region: string;
 		timezone: string;
+		lat: number;
+		lng: number;
+		postalCode: string;
 	};
 	domains: Array<string>;
 	as: {
